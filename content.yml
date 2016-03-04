@@ -1,0 +1,32 @@
+name: Nathan Fischer
+resume: https://drive.google.com/open?id=0B87GEUPaVL0CQWdmTFo3QzBpbms
+handle: kago
+interests:
+    - stuff
+contactInfo:
+    - 
+        type: phone
+        value: 619.940.4258
+currentResidence:
+    city: San Francisco
+    state: California
+workExperience:
+    -
+        title: Software Engineer
+        company: Sipree
+        location:
+            city: San Francisco
+            state: California
+        start: 2015-03
+education:
+    -
+        name: Gonzaga University
+        degree: BS Computer Science
+projects:
+    -
+        name: hate
+        description: dead easy HATEOAS with HAL
+skills:
+    - java
+    - API
+    - docker

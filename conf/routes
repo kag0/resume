@@ -1,0 +1,2 @@
+GET     /people/:id     controllers.EverythingController.retrieve(id)
+GET     /:resource/:id  controllers.EverythingController.retrieveIdResource(resource: String, id: Long)
