@@ -2,16 +2,14 @@ package data;
 
 import black.door.hate.HalResource;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import models.*;
 import org.javatuples.Pair;
 import play.Logger;
@@ -23,13 +21,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toConcurrentMap;
@@ -52,10 +48,12 @@ public enum LolUThoughtThereWasGoingToBeADatabase {
 	}
 
 	public static final ObjectMapper MAPPER = new ObjectMapper()
-			.findAndRegisterModules()
+			.registerModule(new JavaTimeModule())
 			.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-	private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
+	public static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory())
+			.registerModule(new JavaTimeModule())
+			.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
 	private static final Duration REFRESH_INTERVAL =
 			Duration.ofMinutes(Play.application().configuration()
@@ -68,8 +66,8 @@ public enum LolUThoughtThereWasGoingToBeADatabase {
 			everythingElse = new ConcurrentHashMap<>();
 
 	public static LolUThoughtThereWasGoingToBeADatabase instance(){
-		if(INST.lastRefresh.plus(REFRESH_INTERVAL).isBefore(Instant.now())
-				|| INST.lastRefresh == null){
+		if(INST.lastRefresh == null ||
+				INST.lastRefresh.plus(REFRESH_INTERVAL).isBefore(Instant.now())){
 			synchronized (INST){
 				updatePeople();
 			}
@@ -88,6 +86,7 @@ public enum LolUThoughtThereWasGoingToBeADatabase {
 				ExecutionException |
 				TimeoutException |
 				IOException e) {
+			Logger.error(e.getMessage());
 			Logger.error("Could not retrieve or parse data from " + t.getValue0());
 			return Optional.empty();
 		}

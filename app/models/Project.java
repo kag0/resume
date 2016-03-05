@@ -4,11 +4,10 @@ import black.door.hate.HalRepresentation;
 import black.door.hate.HalResource;
 import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.val;
 
 import java.net.URI;
 import java.time.YearMonth;
-
-import static data.LolUThoughtThereWasGoingToBeADatabase.MAPPER;
 
 /**
  * Created by nfischer on 2/29/2016.
@@ -22,9 +21,15 @@ public class Project extends Base implements HalResource{
 
 	@Override
 	public HalRepresentation.HalRepresentationBuilder representationBuilder() {
-		return HalRepresentation.builder()
+		val b = HalRepresentation.builder()
+				.ignoreNullProperties(true)
+				.ignoreNullResources(true)
 				.addLink("self", this)
-				.addProperties(MAPPER.valueToTree(this));
+				.addProperty("date", date)
+				.addProperty("description", description);
+		if(site != null)
+			b.addLink("site", site);
+		return b;
 	}
 
 	@Override

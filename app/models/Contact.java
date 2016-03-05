@@ -4,6 +4,7 @@ import black.door.hate.HalRepresentation;
 import black.door.hate.HalResource;
 import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.val;
 
 import java.net.URI;
 
@@ -14,13 +15,19 @@ import java.net.URI;
 public class Contact extends Base implements HalResource{
 	private String type;
 	private String value;
+	private URI link;
 
 	@Override
 	public HalRepresentation.HalRepresentationBuilder representationBuilder() {
-		return HalRepresentation.builder()
+		val b = HalRepresentation.builder()
+				.ignoreNullProperties(true)
+				.ignoreNullResources(true)
 				.addLink("self", this)
 				.addProperty("type", getType())
 				.addProperty("value", getValue());
+		if(link != null)
+			b.addLink("link", link);
+		return b;
 	}
 
 	@Override

@@ -9,7 +9,7 @@ scalaVersion := "2.11.6"
 libraryDependencies ++= Seq(
   cache,
   javaWs,
-  "org.projectlombok" % "lombok" % "1.16.6",
+  "org.projectlombok" % "lombok" % "1.16.6" % "provided",
   "black.door" % "hate" % "v1r2t3",
   "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.7.2",
   "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % "2.7.2",

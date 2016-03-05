@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.SneakyThrows;
 
 import java.net.URI;
-import java.time.Duration;
+import java.time.Period;
 import java.time.YearMonth;
 
 import static data.LolUThoughtThereWasGoingToBeADatabase.MAPPER;
@@ -24,13 +24,15 @@ public class Job extends Base implements HalResource{
 	private YearMonth start;
 	private YearMonth end = YearMonth.now();
 
-	public Duration getDuration(){
-		return Duration.between(start, end);
+	public Period getDuration(){
+		return Period.between(start.atEndOfMonth(), end.atEndOfMonth());
 	}
 
 	@Override
 	public HalRepresentation.HalRepresentationBuilder representationBuilder() {
 		return HalRepresentation.builder()
+				.ignoreNullProperties(true)
+				.ignoreNullResources(true)
 				.addLink("self", this)
 				.addProperties(MAPPER.valueToTree(this));
 	}

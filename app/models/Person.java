@@ -28,6 +28,8 @@ public class Person implements HalResource{
 	@Override
 	public HalRepresentation.HalRepresentationBuilder representationBuilder() {
 		return HalRepresentation.builder()
+				.ignoreNullProperties(true)
+				.ignoreNullResources(true)
 				.addLink("self", this)
 				.addEmbedded("contact", getContactInfo())
 				.addLink("experience", getWorkExperience())

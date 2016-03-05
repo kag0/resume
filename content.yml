@@ -7,6 +7,12 @@ contactInfo:
     - 
         type: phone
         value: 619.940.4258
+    -
+        type: linkedin
+        link: https://www.linkedin.com/in/nfischer921
+    -
+        type: email
+        link: "mailto:nfischer921@gmail.com"
 currentResidence:
     city: San Francisco
     state: California
@@ -26,7 +32,10 @@ projects:
     -
         name: hate
         description: dead easy HATEOAS with HAL
+        site: https://github.com/blackdoor/hate
 skills:
     - java
-    - API
+    - API design
     - docker
+    - microservices
+    - software engineering
